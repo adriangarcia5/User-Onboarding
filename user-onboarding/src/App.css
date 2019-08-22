@@ -1,0 +1,28 @@
+.App {
+  text-align: center;
+}
+
+.userForm-container {
+  border: 1px solid dodgerblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding:50px 50px 80px;
+  margin: 80px 200px;
+}
+
+.userForm {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 460px;
+}
+
+input {
+  margin-top: 20px;
+}
+
+button {
+  margin-top: 20px;
+  width: 150px;
+}
