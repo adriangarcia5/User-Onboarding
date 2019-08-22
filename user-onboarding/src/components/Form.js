@@ -31,9 +31,12 @@ const UsersForm = (props) => {
 
 //Higher Order Component - HOC
 const FormikUsersForm = withFormik({
-    mapPropsToValues({ name }) {
+    mapPropsToValues({ name, email, password, termsOfService }) {
         return {
-            name: name || ''
+            name: name || '',
+            email: email || '',
+            password: password || '',
+            termsOfService: termsOfService || false
         };
     },
 
@@ -41,7 +44,13 @@ const FormikUsersForm = withFormik({
     }),
 
     handleSubmit(values, {resetForm}) {
-        console.log('Form submitted', values);      
+        axios
+            .post("https://reqres.in/api/users/", values)
+            .then(res => {
+                console.log('Form was a success', res)
+                resetForm();
+            })
+            .catch(err => console.log('Opps! Something went wrong.',err.response));
     }
 })(UsersForm);
 
