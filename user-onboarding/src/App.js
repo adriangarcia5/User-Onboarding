@@ -1,5 +1,5 @@
 import React from 'react';
-import UsersForm from './components/Form'
+import UsersForm from './components/Form';
 
 import './App.css';
 
