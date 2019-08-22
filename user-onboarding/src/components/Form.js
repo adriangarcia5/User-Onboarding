@@ -3,8 +3,16 @@ import axios from "axios";
 import { Form, Field, withFormik } from "formik";
 import * as Yup from "yup";
 
-const UsersForm = ({ errors, touched, values }) => {
-    const [users, setUsers] = useState([])
+const UsersForm = ({ errors, touched, values, status }) => {
+
+    const [users, setUsers] = useState([]);
+    console.log(users)
+
+    useEffect(() => {
+        if(status) {
+            setUsers([...users, status]);
+        }
+    }, [status]);
 
     return (
         <div className='userForm-container'>
@@ -22,8 +30,8 @@ const UsersForm = ({ errors, touched, values }) => {
                 )}
 
                 <Field type='password' name='password' placeholder='password'  />
-                {touched.email && errors.email && (
-                    <p className='errors'>{errors.email}</p>
+                {touched.password && errors.password && (
+                    <p className='errors'>{errors.password}</p>
                 )}
 
                 <label>
@@ -40,9 +48,15 @@ const UsersForm = ({ errors, touched, values }) => {
 
                 <button type='submit'>Submit</button>
             </Form>
+
+            <div className="userList">
+                {users.map(user => (
+                    <p key={user.id} className="printedUsers">{user.name}</p>
+                ))}
+            </div>
         </div>
     )
-    
+
 }
 
 //Higher Order Component - HOC
@@ -58,26 +72,27 @@ const FormikUsersForm = withFormik({
 
     validationSchema: Yup.object().shape({
         name: Yup.string()
-            .required("Name is required"),
+                 .required("Name is required"),
 
         email: Yup.string()
-            .email('Email not valid')
-            .required('Email is required'),
+                  .email('Email not valid')
+                  .required('Email is required'),
 
         password: Yup.string()
-            .min(6, 'Password must be 6 characters or longer')
-            .required('Password is required'),
+                     .min(6, 'Password must be 6 characters or longer')
+                     .required('Password is required'),
 
         termsOfService: Yup.bool()
-        .oneOf([true], 'Field must be checked')  
+                           .oneOf([true], 'Field must be checked')
     }),
 
-    handleSubmit(values, {resetForm}) {
+    handleSubmit(values, {resetForm, setStatus}) {
         axios
             .post("https://reqres.in/api/users/", values)
             .then(res => {
                 console.log('Form was a success', res)
                 resetForm();
+                setStatus(res.data)
             })
             .catch(err => console.log('Opps! Something went wrong.',err.response));
     }
