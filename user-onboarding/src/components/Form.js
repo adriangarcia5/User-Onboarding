@@ -7,10 +7,10 @@ const UsersForm = (props) => {
     const [users, setUsers] = useState([])
 
     return (
-        <div className='userForm'>
+        <div className='userForm-container'>
             <h1> Registration</h1>
             <p>Please use the following form to register</p>
-            <Form>
+            <Form className="userForm">
                 <Field type='text' name='name' placeholder="Please enter your name" />
                 <Field type='email' name='email' placeholder='Email' />
                 <Field type='password' name='password' placeholder='password'  />
@@ -22,6 +22,7 @@ const UsersForm = (props) => {
                      />
                      I have read and agree with the <a href="#">Terms of Service</a>
                 </label>
+                <button type='submit'>Submit</button>
             </Form>
         </div>
     )
